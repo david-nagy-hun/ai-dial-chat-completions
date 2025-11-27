@@ -14,7 +14,7 @@ async def start(stream: bool) -> None:
     conversation = Conversation()
 
     print("Provide System prompt or press 'enter' to continue.")
-    prompt = input().strip()
+    prompt = input("> ").strip()
 
     if prompt:
         conversation.add_message(Message(Role.SYSTEM, prompt))
@@ -28,7 +28,7 @@ async def start(stream: bool) -> None:
     print("Type your question or 'exit' to quit.")
 
     while True:
-        user_message = input().strip()
+        user_message = input("> ").strip()
 
         if user_message.lower() == 'exit':
             print("Exiting the chat. Goodbye!")
@@ -36,6 +36,7 @@ async def start(stream: bool) -> None:
 
         conversation.add_message(Message(Role.USER, user_message))
 
+        print('AI: ', end='')
         if stream:
             conversation.add_message(await custom_client.stream_completion(conversation.get_messages()))
         else:
